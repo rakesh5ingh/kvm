@@ -1,0 +1,24 @@
+- hosts: all
+  tags: provision
+  vars:
+    #kvm_vm_hostname: "vm1.example.com"
+    #kvm_vm_public_ip: 192.168.122.22
+    #kvm_vm_root_pwd: "p@ssw0rd"
+    #kvm_vm_base_img: rhel7.9-2023-3-1.qcow2
+    #kvm_vm_vcpus: "1"
+    #kvm_vm_ram: "2048"
+    #kvm_vm_os_disk_name: "test"
+    #kvm_vm_os_disk_size: "20G"
+    kvm_vm_nics:
+      - name: eth0
+        bootproto: static
+        onboot: yes
+        ip: "{{ kvm_vm_public_ip }}"
+        prefix: "24"
+        gateway: "192.168.122.1"
+        dns_server: "8.8.8.8"
+        config: "--type network --source default --model virtio"
+  tasks:
+    - name: Create KVM VM
+      include_role:
+        name: ansible-kvm-vm
